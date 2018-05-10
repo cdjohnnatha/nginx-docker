@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  nginx_proxy:
+    build: .
+    ports:
+        - "80:80"
+
+  # rabbit:
+  #   image: "rabbitmq:3-management"
+  #   ports:
+  #     - "15672:15672"
+  #     - "5672:5672"
+  #   volumes:
+  #     - ./rabbitmq:/var/lib/rabbitmq
+
+  vi_front:
+    image: translateavatar_vi_front
+    ports:
+      - "4200:4200"
+    # depends_on:
+    #   - avatarapi
+  
+  # avatarapi:
+  #   image: virtualinteractionapi_vi_api
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - rabbit
