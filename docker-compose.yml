@@ -5,25 +5,40 @@ services:
     build: .
     ports:
         - "80:80"
+    links:
+      - rabbit
+      - vi_front
+      - avatarapi
+    depends_on:
+      - rabbit
+      - vi_front
+      - avatarapi
 
-  # rabbit:
-  #   image: "rabbitmq:3-management"
-  #   ports:
-  #     - "15672:15672"
-  #     - "5672:5672"
-  #   volumes:
-  #     - ./rabbitmq:/var/lib/rabbitmq
+  rabbit:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
 
   vi_front:
     image: translateavatar_vi_front
     ports:
-      - "4200:4200"
-    # depends_on:
-    #   - avatarapi
+      - "4200"
+    depends_on:
+      - avatarapi
   
-  # avatarapi:
-  #   image: virtualinteractionapi_vi_api
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - rabbit
+  avatarapi:
+    image: virtualinteractionapi_virtual_interaction
+    ports:
+      - "3000"
+    depends_on:
+      - rabbit
+    links:
+      - rabbit
+      
+  bundles_server:
+    image: assistabundleserver_bundles_server
+    ports:
+      - "8000"
