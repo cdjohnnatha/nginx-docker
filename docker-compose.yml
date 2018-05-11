@@ -21,9 +21,12 @@ services:
       - "5672:5672"
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
+    environment: 
+      RABBITMQ_DEFAULT_PASS: assista
+      RABBITMQ_DEFAULT_USER: assista
 
   vi_front:
-    image: translateavatar_vi_front
+    image: "vifront_vi_front"
     ports:
       - "4200"
     depends_on:
