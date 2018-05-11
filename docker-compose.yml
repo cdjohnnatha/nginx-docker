@@ -30,7 +30,7 @@ services:
       - avatarapi
   
   avatarapi:
-    image: virtualinteractionapi_virtual_interaction
+    image: assistagateway_virtual_interaction
     ports:
       - "3000"
     depends_on:
