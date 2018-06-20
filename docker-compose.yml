@@ -4,7 +4,7 @@ services:
   nginx_proxy:
     build: .
     ports:
-        - "80:80"
+        - "8080:8080"
     links:
       - rabbit
       - vi_front
@@ -21,16 +21,19 @@ services:
       - "5672:5672"
     volumes:
       - ./rabbitmq:/var/lib/rabbitmq
+    environment: 
+      RABBITMQ_DEFAULT_PASS: assista
+      RABBITMQ_DEFAULT_USER: assista
 
   vi_front:
-    image: translateavatar_vi_front
+    image: vi-front_vi_front
     ports:
       - "4200"
     depends_on:
       - avatarapi
   
   avatarapi:
-    image: assistagateway_virtual_interaction
+    image: assista-gateway_virtual_interaction
     ports:
       - "3000"
     depends_on:
@@ -39,6 +42,6 @@ services:
       - rabbit
       
   bundles_server:
-    image: assistabundleserver_bundles_server
+    image: bundle-server_bundles_server
     ports:
       - "8000"
