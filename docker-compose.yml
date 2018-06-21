@@ -6,13 +6,11 @@ services:
     ports:
         - "8080:8080"
     links:
+      - assista_gateway
       - rabbit
       - vi_front
-      - avatarapi
     depends_on:
-      - rabbit
-      - vi_front
-      - avatarapi
+      - assista_gateway
 
   rabbit:
     image: "rabbitmq:3-management"
@@ -29,17 +27,16 @@ services:
     image: vi-front_vi_front
     ports:
       - "4200"
-    depends_on:
-      - avatarapi
   
-  avatarapi:
-    image: assista-gateway_virtual_interaction
+  assista_gateway:
+    image: assista-gateway_assista_gateway 
     ports:
       - "3000"
     depends_on:
       - rabbit
     links:
       - rabbit
+      - bundles_server
       
   bundles_server:
     image: bundle-server_bundles_server
