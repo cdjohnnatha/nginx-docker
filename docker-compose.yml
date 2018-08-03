@@ -9,6 +9,7 @@ services:
       - assista_gateway
       - rabbit
       - vi_front
+      - bundles_server
     depends_on:
       - assista_gateway
 
@@ -34,11 +35,29 @@ services:
       - "3000"
     depends_on:
       - rabbit
+      - postgresdb
     links:
       - rabbit
       - bundles_server
+      - postgresdb
       
   bundles_server:
     image: bundle-server_bundles_server
     ports:
       - "8000"
+ 
+  postgresdb:
+    image: postgres:9.6
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: assista_gateway
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+    driver: local
